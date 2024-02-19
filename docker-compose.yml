@@ -1,0 +1,16 @@
+version: '8.0'
+
+services:
+    fc.codeflix.catalog.fb:
+        container_name: catalogdb
+        hostname: catalogdb
+        image: mysql
+        ports:
+        - "3306:3306"
+        environment: 
+            MYSQL_ROOT_PASSWORD: rsb@142529 
+networks:
+    default:
+        name: service_catalog
+
+

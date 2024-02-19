@@ -12,11 +12,11 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Category.ListCategories
             string search = "",
             string sort = "",
             SearchOrder dir = SearchOrder.Asc)
-            : base(
-                  page,
-                  perPage,
-                  search,
-                  sort,
-                  dir) { }
+            : base(page, perPage, search, sort, dir)
+        { }
+
+        public ListCategoriesInput()
+            : base(1, 15, "", "", SearchOrder.Asc)
+        { }
     }
 }

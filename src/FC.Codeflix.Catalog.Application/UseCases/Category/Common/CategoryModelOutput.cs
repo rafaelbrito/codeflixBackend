@@ -15,13 +15,13 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Category.Common
             string name,
             string description,
             bool isActive,
-            DateTime createAt)
+            DateTime createdAt)
         {
             Id = id;
             Name = name;
             Description = description;
             IsActive = isActive;
-            CreatedAt = createAt;
+            CreatedAt = createdAt;
         }
 
         public static CategoryModelOutput FromCategory(DomainEntity.Category category)

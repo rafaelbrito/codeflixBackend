@@ -49,25 +49,28 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.Repositories.Catego
         );
         public List<Category> GetExampleCategoryList(int length = 10)
          => Enumerable.Range(0, length)
-            .Select(_ => 
+            .Select(_ =>
             GetExampleCategory())
             .ToList();
 
-        public List<Category> CloneCategoryListOrdered(List<Category> categoryList, string orderBy, SearchOrder order)
+        public List<Category> CloneCategoryListOrdered(
+            List<Category> categoryList, string orderBy, SearchOrder order)
         {
             var listClone = new List<Category>(categoryList);
-            var orderedEnumerable = (orderBy, order) switch
+            var orderedEnumerable = (orderBy.ToLower(), order) switch
             {
-                ("name", SearchOrder.Asc) => listClone.OrderBy(x => x.Name),
-                ("name", SearchOrder.Desc) => listClone.OrderByDescending(x => x.Name),
+                ("name", SearchOrder.Asc) => listClone.OrderBy(x => x.Name)
+                    .ThenBy(x => x.Id),
+                ("name", SearchOrder.Desc) => listClone.OrderByDescending(x => x.Name)
+                    .ThenByDescending(x => x.Id),
                 ("id", SearchOrder.Asc) => listClone.OrderBy(x => x.Id),
                 ("id", SearchOrder.Desc) => listClone.OrderByDescending(x => x.Id),
                 ("createdat", SearchOrder.Asc) => listClone.OrderBy(x => x.CreatedAt),
                 ("createdat", SearchOrder.Desc) => listClone.OrderByDescending(x => x.CreatedAt),
-                _ => listClone.OrderBy(x => x.Name),
+                _ => listClone.OrderBy(x => x.Name)
+                    .ThenBy(x => x.Id),
             };
             return orderedEnumerable.ToList();
-
         }
     }
 }

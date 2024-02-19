@@ -8,7 +8,7 @@ namespace FC.Codeflix.Catalog.EndToEndTests.Api.Category.CreateCategory
     public class CreateCategoryApiTestFixtueCollection : ICollectionFixture<CreateCategoryApiTestFixture>
     { }
 
-    public class CreateCategoryApiTestFixture :CategoryBaseFixture
+    public class CreateCategoryApiTestFixture : CategoryBaseFixture
     {
         public CreateCategoryInput GetExampleInput()
             => new(

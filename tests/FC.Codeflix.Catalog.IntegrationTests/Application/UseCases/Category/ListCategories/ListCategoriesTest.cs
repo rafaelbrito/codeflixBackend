@@ -6,7 +6,6 @@ using FC.Codeflix.Catalog.Infra.Data.EF.Repositories;
 using FC.Codeflix.Catalog.Application.UseCases.Category.ListCategories;
 using FC.Codeflix.Catalog.Application.UseCases.Category.Common;
 using FC.Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
-using FC.Codeflix.Catalog.Domain.SeedWork;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.ListCategories
 {
@@ -191,13 +190,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Lis
             var useCase = new UseCase.ListCategories(categoryRespository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);
-            var expectedOrderedList = _fixture.CloneCategoryListOrdered(exampleCategoryList, orderBy, useCaseOrder);
             output.Should().NotBeNull();
             output.Items.Should().NotBeNull();
             output.Page.Should().Be(searchInput.Page);
             output.PerPage.Should().Be(searchInput.PerPage);
             output.Total.Should().Be(exampleCategoryList.Count);
             output.Items.Should().HaveCount(exampleCategoryList.Count);
+
+            var expectedOrderedList = _fixture.CloneCategoryListOrdered(exampleCategoryList, orderBy, useCaseOrder);
+
             for (int i = 0; i < expectedOrderedList.Count; i++)
             {
                 var expectedItem = expectedOrderedList[i];

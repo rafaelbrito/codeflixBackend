@@ -1,16 +1,17 @@
-﻿using FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Common;
+﻿using FC.Codeflix.Catalog.EndToEndTests.Api.Category.Common;
 using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 using Xunit;
 using FC.Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
 
-namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.ListCategories
+namespace FC.Codeflix.Catalog.EndToEndTests.Api.Category.ListCategories
 {
-    [CollectionDefinition(nameof(ListCategoriesTestFixture))]
-    public class ListCategoriesTestFixtureCollection : ICollectionFixture<ListCategoriesTestFixture>
+    [CollectionDefinition(nameof(ListCategoriesApiTestFixture))]
+    public class ListCategoriesApiTestFixtureCollection : ICollectionFixture<ListCategoriesApiTestFixture>
     { }
 
-    public class ListCategoriesTestFixture : CategoryUseCasesBaseFixture
+    public class ListCategoriesApiTestFixture : CategoryBaseFixture
     {
+
         public List<DomainEntity.Category> GetExampleCategoriesListWithNames(List<string> names)
             => names.Select(name =>
             {
@@ -20,7 +21,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Lis
             }).ToList();
 
         public List<DomainEntity.Category> CloneCategoryListOrdered(
-           List<DomainEntity.Category> categoryList, string orderBy, SearchOrder order)
+            List<DomainEntity.Category> categoryList, string orderBy, SearchOrder order)
         {
             var listClone = new List<DomainEntity.Category>(categoryList);
             var orderedEnumerable = (orderBy.ToLower(), order) switch
