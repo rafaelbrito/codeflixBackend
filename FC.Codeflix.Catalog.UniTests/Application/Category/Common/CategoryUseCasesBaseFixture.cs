@@ -26,11 +26,6 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.Common
             return categoryDescription;
         }
 
-        public bool GetRandomBoolean()
-        {
-            return new Random().Next(0, 2) == 0;
-        }
-
         public Mock<ICategoryRepository> GetRepositoryMock() => new();
 
         public Mock<IUnitOfWork> GetUnitOfWorkMock() => new();

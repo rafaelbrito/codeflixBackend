@@ -33,6 +33,7 @@ namespace FC.Codeflix.Catalog.Domain.Entity
             IsActive = true;
             Validate();
         }
+
         public void Deactivate()
         {
             IsActive = false;

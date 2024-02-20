@@ -65,7 +65,7 @@ namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Category
             var validCategory = _categoryTestFixture.GetValidCategory();
             Action action = () => new DomainEntity.Category(name!, validCategory.Description);
             action.Should().Throw<EntityValidationException>()
-                .WithMessage("Name should not be null or empty"); ;
+                .WithMessage("Name should not be null or empty");
         }
 
         [Fact(DisplayName = nameof(InstantiateErrorWhenDescrptionIsNull))]

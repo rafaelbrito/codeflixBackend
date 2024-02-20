@@ -13,5 +13,8 @@ namespace FC.Codeflix.Catalog.UniTests.Comon
 
         protected BaseFixture()
         => Faker = new Faker("pt_BR");
+
+        public bool GetRandomBoolean()
+            => new Random().NextDouble() < 0.5;
     }
 }
