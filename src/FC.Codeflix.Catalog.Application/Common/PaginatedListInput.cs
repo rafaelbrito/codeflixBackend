@@ -1,4 +1,5 @@
 ﻿using FC.Codeflix.Catalog.Domain.SeedWork.SearchableRepository;
+using MediatR;
 
 namespace FC.Codeflix.Catalog.Application.Common
 {
@@ -18,5 +19,8 @@ namespace FC.Codeflix.Catalog.Application.Common
             Sort = sort;
             Dir = dir;
         }
+
+        public SearchInput ToSearchInput()
+            => new(Page, PerPage, Search, Sort, Dir);
     }
 }
