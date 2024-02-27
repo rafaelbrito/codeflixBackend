@@ -31,8 +31,8 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
 
         public async Task Insert(Category agreggate,
             CancellationToken cancellationToken)
-                => await _categories.AddAsync(agreggate, cancellationToken)
-                  ;
+                => await _categories.AddAsync(agreggate, cancellationToken);
+                  
 
         public async Task<SearchOutput<Category>> Search(SearchInput input, CancellationToken cancellationToken)
         {
@@ -72,9 +72,15 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
             return orderedQuery;
         }
 
-        public Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken)
+            => await _categories.AsNoTracking()
+                    .Where(category => ids.Contains(category.Id))
+                    .Select(category => category.Id).ToListAsync();
+
+        public async Task<IReadOnlyList<Category>> GetListByIds(List<Guid> ids, CancellationToken cancellationToken)
+             => await _categories.AsNoTracking()
+                    .Where(category => ids.Contains(category.Id))
+                    .ToListAsync();
+
     }
 }

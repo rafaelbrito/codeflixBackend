@@ -22,6 +22,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
         public async Task ListGenres()
         {
             var genreRepositoryMock = _fixture.GetGenreRepositoryMock();
+            var categoryRepositoryMock = _fixture.GetCategoryRepositoryMock();
             var genreListExample = _fixture.GetExampleGenreList();
 
             var input = _fixture.GetExampleInput();
@@ -39,7 +40,8 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
             ).ReturnsAsync(outputRepositorySearch);
 
             var useCase = new UseCase.ListGenres(
-                genreRepositoryMock.Object);
+                genreRepositoryMock.Object,
+                categoryRepositoryMock.Object);
 
             ListGenresOutput output = await useCase.Handle(input, CancellationToken.None);
 
@@ -59,7 +61,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
                 outputItem.CreatedAt.Should().Be(repositoryGenre.CreatedAt);
                 outputItem.Categories.Should().HaveCount(repositoryGenre.Categories.Count);
                 foreach (var expectedid in repositoryGenre.Categories)
-                    outputItem.Categories.Should().Contain(expectedid);
+                    outputItem.Categories.Should().Contain(relation => relation.Id == expectedid);
             });
 
             genreRepositoryMock.Verify(x => x.Search(
@@ -71,6 +73,17 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
                     && searchInput.Order == input.Dir
                     ),
                 It.IsAny<CancellationToken>()), Times.Once);
+
+            var expectedIds = genreListExample
+                       .SelectMany(genre => genre.Categories)
+                       .Distinct().ToList();
+
+            categoryRepositoryMock.Verify(x => x.GetListByIds(
+                It.Is<List<Guid>>(parameterList => expectedIds.All(
+                    id => parameterList.Contains(id)
+                    && parameterList.Count == expectedIds.Count)
+                    ), 
+                It.IsAny<CancellationToken>()), Times.Once);
         }
 
         [Fact(DisplayName = nameof(ListEmpty))]
@@ -78,6 +91,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
         public async Task ListEmpty()
         {
             var genreRepositoryMock = _fixture.GetGenreRepositoryMock();
+            var categoryRepositoryMock = _fixture.GetCategoryRepositoryMock();
 
             var input = _fixture.GetExampleInput();
             var outputRepositorySearch = new SearchOutput<DomainEntity.Genre>(
@@ -94,7 +108,8 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
             ).ReturnsAsync(outputRepositorySearch);
 
             var useCase = new UseCase.ListGenres(
-                genreRepositoryMock.Object);
+                genreRepositoryMock.Object,
+                categoryRepositoryMock.Object);
 
             ListGenresOutput output = await useCase.Handle(input, CancellationToken.None);
 
@@ -120,7 +135,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
         public async Task ListUsingDefaultValues()
         {
             var genreRepositoryMock = _fixture.GetGenreRepositoryMock();
-
+            var categoryRepositoryMock = _fixture.GetCategoryRepositoryMock();
             var outputRepositorySearch = new SearchOutput<DomainEntity.Genre>(
                 currentPage: 1,
                 perPage: 15,
@@ -135,7 +150,8 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.ListGenres
             ).ReturnsAsync(outputRepositorySearch);
 
             var useCase = new UseCase.ListGenres(
-                genreRepositoryMock.Object);
+                genreRepositoryMock.Object, 
+                categoryRepositoryMock.Object);
 
             ListGenresOutput output = await useCase.Handle(new UseCase.ListGenresInput(), CancellationToken.None);
 

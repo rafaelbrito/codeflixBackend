@@ -3,7 +3,6 @@ using FC.Codeflix.Catalog.Domain.Repository;
 using FC.Codeflix.Catalog.UniTests.Comon;
 using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 using Moq;
-using FC.Codeflix.Catalog.Domain.Entity;
 
 namespace FC.Codeflix.Catalog.UniTests.Application.Genre.Common
 {
