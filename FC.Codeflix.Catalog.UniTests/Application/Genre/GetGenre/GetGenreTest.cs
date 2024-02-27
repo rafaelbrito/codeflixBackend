@@ -42,7 +42,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.GetGenre
             output.CreatedAt.Should().BeSameDateAs(exampleGenre.CreatedAt);
             output.Categories.Should().HaveCount(exampleGenre.Categories.Count);
             foreach (var expectedid in exampleGenre.Categories)
-                output.Categories.Should().Contain(expectedid);
+                output.Categories.Should().Contain(relation => relation.Id == expectedid);
 
             genreRepositoryMock.Verify(
                 x => x.Get(

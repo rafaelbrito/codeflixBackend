@@ -24,5 +24,14 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Genre.ListGenres
                     searchOutput.Items
                         .Select(GenreModelOutput.FromGenre).ToList()
                 );
+
+        internal void FillWithCategoryName(IReadOnlyList<DomainEntity.Category> categories)
+        {
+            foreach (var item in Items)
+                foreach (var categoryOutput in item.Categories)
+                    categoryOutput.Name = categories?.FirstOrDefault(
+                        category => category.Id == categoryOutput.Id)?.Name;
+        }
     }
 }
+

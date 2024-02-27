@@ -18,7 +18,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.CreateGenre
                     );
 
         public CreateGenreInput GetExampleInput(string? name)
-       => new CreateGenreInput(
+            => new CreateGenreInput(
               name,
               GetRandomBoolean()
                );

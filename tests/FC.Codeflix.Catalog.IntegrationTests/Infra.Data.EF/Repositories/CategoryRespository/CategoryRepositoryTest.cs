@@ -312,5 +312,37 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.Repositories.Catego
                 outputItem.CreatedAt.Should().Be(expectedItem.CreatedAt);
             }
         }
+
+        [Fact(DisplayName = (nameof(ListByIds)))]
+        [Trait("Integration/Infra.Data", "CategoryRepository - Repositories")]
+        public async Task ListByIds()
+        {
+            CodeflixCatalogDbContext dbContext = _fixture.CreateDbContext();
+            var exampleCategoryList = _fixture.GetExampleCategoryList(15);
+            var categoryIdsToGet = Enumerable.Range(1, 3).Select(_ => {
+                var indexToget = (new Random().Next(0, exampleCategoryList.Count - 1));
+                return exampleCategoryList[indexToget].Id;
+            }).Distinct().ToList();
+
+            await dbContext.AddRangeAsync(exampleCategoryList);
+            await dbContext.SaveChangesAsync(CancellationToken.None);
+            var categoryRespository = new Repository.CategoryRespository(dbContext);
+
+            var categoriesList = await categoryRespository.GetListByIds(categoryIdsToGet, CancellationToken.None);
+
+            categoriesList.Should().NotBeNull();
+            categoriesList.Should().HaveCount(categoryIdsToGet.Count);
+            foreach (Category outputItem in categoriesList)
+            {
+                var exampleItem = exampleCategoryList.Find(
+                    category => category.Id == outputItem.Id
+                    );
+                exampleItem.Should().NotBeNull();
+                outputItem.Name.Should().Be(exampleItem!.Name);
+                outputItem.Description.Should().Be(exampleItem!.Description);
+                outputItem.IsActive.Should().Be(exampleItem!.IsActive);
+                outputItem.CreatedAt.Should().Be(exampleItem!.CreatedAt);
+            }
+        }
     }
 }

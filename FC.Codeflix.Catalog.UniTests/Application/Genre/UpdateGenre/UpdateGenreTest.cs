@@ -233,7 +233,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.UpdateGenre
             output.CreatedAt.Should().BeSameDateAs(exampleGenre.CreatedAt);
             output.Categories.Should().HaveCount(exampleCategoriesList.Count);
             exampleCategoriesList.ForEach(
-                expectedId => output.Categories.Should().Contain(expectedId)
+                expectedId => output.Categories.Should().Contain(relation => relation.Id == expectedId)
                 );
 
             genreRepositoryMock.Verify(
@@ -296,7 +296,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.UpdateGenre
             output.CreatedAt.Should().BeSameDateAs(exampleGenre.CreatedAt);
             output.Categories.Should().HaveCount(exampleCategoriesList.Count);
             exampleCategoriesList.ForEach(
-                expectedId => output.Categories.Should().Contain(expectedId)
+                expectedId => output.Categories.Should().Contain(relation => relation.Id == expectedId)
                 );
 
             genreRepositoryMock.Verify(
@@ -406,7 +406,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.UpdateGenre
             output.CreatedAt.Should().BeSameDateAs(exampleGenre.CreatedAt);
             output.Categories.Should().HaveCount(exampleCategoriesList.Count);
             exampleCategoriesList.ForEach(
-                expectedId => output.Categories.Should().Contain(expectedId)
+                expectedId => output.Categories.Should().Contain(relation => relation.Id == expectedId)
                 );
 
             genreRepositoryMock.Verify(
