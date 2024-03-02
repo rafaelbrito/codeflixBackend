@@ -4,7 +4,7 @@ using FC.Codeflix.Catalog.Domain.Exceptions;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using UseCases = FC.Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
+using UseCase = FC.Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
 
 namespace FC.Codeflix.Catalog.UniTests.Application.Category.CreateCategory
 {
@@ -26,7 +26,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.CreateCategory
             var repositoryMock = _fixture.GetRepositoryMock();
             var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
 
-            var useCase = new UseCases.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+            var useCase = new UseCase.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
 
             var input = _fixture.GetInput();
             var output = await useCase.Handle(input, CancellationToken.None);
@@ -53,7 +53,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.CreateCategory
             var repositoryMock = _fixture.GetRepositoryMock();
             var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
 
-            var useCase = new UseCases.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+            var useCase = new UseCase.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
 
             var input = new CreateCategoryInput(
                 _fixture.GetValidCategoryName()
@@ -82,7 +82,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.CreateCategory
             var repositoryMock = _fixture.GetRepositoryMock();
             var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
 
-            var useCase = new UseCases.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+            var useCase = new UseCase.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
 
             var input = new CreateCategoryInput(
                 _fixture.GetValidCategoryName(),
@@ -116,7 +116,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.CreateCategory
             var repositoryMock = _fixture.GetRepositoryMock();
             var unitOfWorkMock = _fixture.GetUnitOfWorkMock();
 
-            var useCase = new UseCases.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
+            var useCase = new UseCase.CreateCategory(repositoryMock.Object, unitOfWorkMock.Object);
             Func<Task> task = async () => await useCase.Handle(input, CancellationToken.None);
             await task.Should()
                 .ThrowAsync<EntityValidationException>()

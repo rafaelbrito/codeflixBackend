@@ -35,6 +35,13 @@ namespace FC.Codeflix.Catalog.Api.Filter
                 details.Detail = exception!.Message;
 
             }
+            else if(exception is RelatedAggregateException)
+            {
+                details.Title = "Invalid Related Aggregate";
+                details.Type = "RelatedAggregate";
+                details.Status = StatusCodes.Status422UnprocessableEntity;
+                details.Detail = exception!.Message;
+            }
             else
             {
                 details.Title = "An unexpected error ocurred";
