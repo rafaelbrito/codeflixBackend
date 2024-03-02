@@ -21,6 +21,7 @@ namespace FC.Codeflix.Catalog.Api.Configurations
         {
             services.AddTransient<ICategoryRepository, CategoryRespository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IGenreRepository, GenreRepository>();
 
             return services;
         }
