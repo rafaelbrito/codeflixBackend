@@ -195,8 +195,8 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.Repositories.Catego
 
             output.Should().NotBeNull();
             output.Items.Should().NotBeNull();
-            output.CurrentPage.Should().Be(searchInput.Page);
-            output.PerPage.Should().Be(searchInput.PerPage);
+            output.CurrentPage.Should().Be(page);
+            output.PerPage.Should().Be(perPage);
             output.Total.Should().Be(quantityCategoryToGenerate);
             output.Items.Should().HaveCount(expectedQuantityItems);
             foreach (Category outputItem in output.Items)
