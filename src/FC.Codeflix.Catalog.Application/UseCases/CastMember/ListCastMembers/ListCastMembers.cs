@@ -9,7 +9,7 @@ namespace FC.Codeflix.Catalog.Application.UseCases.CastMember.ListCastMembers
         public ListCastMembers(ICastMemberRepository repository)
                 => _repository = repository;
 
-        public async Task<ListCastMembersOutput> Handle(ListCastMemberInput request, CancellationToken cancellationToken)
+        public async Task<ListCastMembersOutput> Handle(ListCastMembersInput request, CancellationToken cancellationToken)
         {
             var searchOutput = await _repository.Search(request.ToSearchInput(), cancellationToken);
             return ListCastMembersOutput.FromSearchOutput(searchOutput);

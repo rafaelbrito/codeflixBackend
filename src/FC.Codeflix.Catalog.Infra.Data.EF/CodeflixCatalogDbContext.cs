@@ -10,6 +10,7 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF
         public DbSet<Category> Categories => Set<Category>();
         public DbSet<Genre> Genres => Set<Genre>();
         public DbSet<GenresCategories> GenresCategories => Set<GenresCategories>();
+        public DbSet<CastMember> CastMembers => Set<CastMember>();
 
         public CodeflixCatalogDbContext(DbContextOptions<CodeflixCatalogDbContext> options)
             : base(options)
@@ -20,6 +21,7 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new GenreConfiguration());
             builder.ApplyConfiguration(new GenresCategoriesConfiguration());
+            builder.ApplyConfiguration(new CastMembersConfiguration());
         }
     }
 }
