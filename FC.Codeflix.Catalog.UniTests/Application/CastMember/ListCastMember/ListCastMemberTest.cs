@@ -36,7 +36,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.CastMember.ListCastMember
               )
            ).ReturnsAsync(outputRepositorySearch);
 
-            var input = new ListCastMemberInput(1, 10, "", "", SearchOrder.Asc);
+            var input = new ListCastMembersInput(1, 10, "", "", SearchOrder.Asc);
 
             var useCase = new UseCase.ListCastMembers(repositoryMock.Object);
             var output = await useCase.Handle(input, CancellationToken.None);
@@ -87,7 +87,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.CastMember.ListCastMember
               )
            ).ReturnsAsync(outputRepositorySearch);
 
-            var input = new ListCastMemberInput(1, 10, "", "", SearchOrder.Asc);
+            var input = new ListCastMembersInput(1, 10, "", "", SearchOrder.Asc);
 
             var useCase = new UseCase.ListCastMembers(repositoryMock.Object);
             var output = await useCase.Handle(input, CancellationToken.None);

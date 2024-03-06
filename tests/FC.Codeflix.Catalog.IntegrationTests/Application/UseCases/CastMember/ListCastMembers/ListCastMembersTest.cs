@@ -27,7 +27,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.L
             await dbContext.AddRangeAsync(exampleCastMemberList);
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var repository = new CastMemberRepository(dbContext);
-            var searchInput = new UseCase.ListCastMemberInput(1, 20, "", "", SearchOrder.Asc);
+            var searchInput = new UseCase.ListCastMembersInput(1, 20, "", "", SearchOrder.Asc);
             var useCase = new UseCase.ListCastMembers(repository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);
@@ -54,7 +54,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.L
         public async Task ListEmpty()
         {
             var categoryRespository = new CastMemberRepository(_fixture.CreateDbContext());
-            var searchInput = new UseCase.ListCastMemberInput(1, 20, "", "", SearchOrder.Asc);
+            var searchInput = new UseCase.ListCastMembersInput(1, 20, "", "", SearchOrder.Asc);
             var useCase = new UseCase.ListCastMembers(categoryRespository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);
@@ -83,7 +83,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.L
             await dbContext.AddRangeAsync(exampleCastMemberList);
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var repository = new CastMemberRepository(dbContext);
-            var searchInput = new UseCase.ListCastMemberInput(page, perPage, "", "", SearchOrder.Asc);
+            var searchInput = new UseCase.ListCastMembersInput(page, perPage, "", "", SearchOrder.Asc);
             var useCase = new UseCase.ListCastMembers(repository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);
@@ -139,7 +139,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.L
             await dbContext.AddRangeAsync(exampleCastMemberList);
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var repository = new CastMemberRepository(dbContext);
-            var searchInput = new UseCase.ListCastMemberInput(page, perPage, search, "", SearchOrder.Asc);
+            var searchInput = new UseCase.ListCastMembersInput(page, perPage, search, "", SearchOrder.Asc);
             var useCase = new UseCase.ListCastMembers(repository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);
@@ -178,7 +178,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.L
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var respository = new CastMemberRepository(dbContext);
             var useCaseOrder = order == "asc" ? SearchOrder.Asc : SearchOrder.Desc;
-            var searchInput = new UseCase.ListCastMemberInput(1, 10, "", orderBy, useCaseOrder);
+            var searchInput = new UseCase.ListCastMembersInput(1, 10, "", orderBy, useCaseOrder);
             var useCase = new UseCase.ListCastMembers(respository);
 
             var output = await useCase.Handle(searchInput, CancellationToken.None);

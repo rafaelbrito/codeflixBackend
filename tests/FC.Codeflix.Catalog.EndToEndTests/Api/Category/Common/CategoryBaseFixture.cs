@@ -1,5 +1,4 @@
-﻿using FC.Codeflix.Catalog.Application.UseCases.Category.CreateCategory;
-using FC.Codeflix.Catalog.EndToEndTests.Base;
+﻿using FC.Codeflix.Catalog.EndToEndTests.Base;
 using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 namespace FC.Codeflix.Catalog.EndToEndTests.Api.Category.Common
 {
