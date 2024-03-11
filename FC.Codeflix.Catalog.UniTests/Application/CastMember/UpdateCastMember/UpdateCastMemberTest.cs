@@ -106,7 +106,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.UseCases.CastMember.UpdateCas
             var action = async () => await useCase.Handle(input, CancellationToken.None);
 
             await action.Should().ThrowAsync<EntityValidationException>()
-                .WithMessage("Name should not be empty or null");
+                .WithMessage("Name should not be null or empty");
         }
     }
 }
