@@ -1,10 +1,14 @@
-﻿namespace FC.Codeflix.Catalog.Domain.Exceptions
+﻿using FC.Codeflix.Catalog.Domain.Validation;
+
+namespace FC.Codeflix.Catalog.Domain.Exceptions
 {
     public class EntityValidationException : Exception
     {
-        public EntityValidationException(string? message) : base(message)
-        {
-
-        }
+        public IReadOnlyCollection<ValidationError>? Erros { get; }
+        public EntityValidationException(
+            string? message,
+            IReadOnlyCollection<ValidationError>? erros = null)
+            : base(message)
+            => Erros = erros;
     }
 }
