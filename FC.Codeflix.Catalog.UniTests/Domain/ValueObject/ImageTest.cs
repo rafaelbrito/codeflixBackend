@@ -1,5 +1,5 @@
 ﻿using FC.Codeflix.Catalog.Domain.ValueObject;
-using FC.Codeflix.Catalog.UniTests.Comon;
+using FC.Codeflix.Catalog.UniTests.Common.Fixtures;
 using FluentAssertions;
 using Xunit;
 

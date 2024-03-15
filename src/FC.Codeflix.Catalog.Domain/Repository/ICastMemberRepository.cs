@@ -7,6 +7,7 @@ namespace FC.Codeflix.Catalog.Domain.Repository
     public interface ICastMemberRepository : IGerenericRepository<CastMember>,
         ISearchableRepository<CastMember>
     {
+        public Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken);
 
     }
 }

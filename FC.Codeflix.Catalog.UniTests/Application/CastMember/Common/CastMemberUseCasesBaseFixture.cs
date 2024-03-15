@@ -1,6 +1,6 @@
 ﻿using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 using FC.Codeflix.Catalog.Domain.Enum;
-using FC.Codeflix.Catalog.UniTests.Comon;
+using FC.Codeflix.Catalog.UniTests.Common.Fixtures;
 
 namespace FC.Codeflix.Catalog.UniTests.Application.UseCases.CastMember.Common
 {

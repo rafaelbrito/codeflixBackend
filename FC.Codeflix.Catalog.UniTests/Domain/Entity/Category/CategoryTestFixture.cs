@@ -1,5 +1,5 @@
 ﻿using Bogus;
-using FC.Codeflix.Catalog.UniTests.Comon;
+using FC.Codeflix.Catalog.UniTests.Common.Fixtures;
 using Xunit;
 using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Category

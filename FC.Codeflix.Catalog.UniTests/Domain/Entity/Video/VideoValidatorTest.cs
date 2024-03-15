@@ -3,6 +3,8 @@ using FC.Codeflix.Catalog.Domain.Validation;
 using FC.Codeflix.Catalog.Domain.Validator;
 using FluentAssertions;
 using Xunit;
+using FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo;
+using FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo;
 
 namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Video
 {
