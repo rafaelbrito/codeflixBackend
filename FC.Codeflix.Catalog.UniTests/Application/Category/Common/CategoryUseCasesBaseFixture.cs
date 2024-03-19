@@ -1,8 +1,8 @@
 ﻿using FC.Codeflix.Catalog.Application.Inferfaces;
 using DomainEntity = FC.Codeflix.Catalog.Domain.Entity;
 using FC.Codeflix.Catalog.Domain.Repository;
-using FC.Codeflix.Catalog.UniTests.Comon;
 using Moq;
+using FC.Codeflix.Catalog.UniTests.Common.Fixtures;
 
 namespace FC.Codeflix.Catalog.UniTests.Application.Category.Common
 {

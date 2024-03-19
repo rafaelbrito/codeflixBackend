@@ -1,5 +1,4 @@
 ﻿using FC.Codeflix.Catalog.Application.Inferfaces;
-using FC.Codeflix.Catalog.Application.UseCases.Genre.Common;
 using FC.Codeflix.Catalog.Domain.Repository;
 
 namespace FC.Codeflix.Catalog.Application.UseCases.Genre.DeleteGenre

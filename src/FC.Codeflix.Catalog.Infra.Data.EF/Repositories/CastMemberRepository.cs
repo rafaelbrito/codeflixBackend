@@ -69,5 +69,10 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
             };
             return orderedQuery;
         }
+
+        public async Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken)
+             => await _castMembers.AsNoTracking()
+                    .Where(castMember => ids.Contains(castMember.Id))
+                    .Select(castMember => castMember.Id).ToListAsync();
     }
 }

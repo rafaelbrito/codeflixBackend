@@ -78,7 +78,7 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
             query = AddOrderToQuery(query, input.OrderBy, input.Order);
             if (!String.IsNullOrWhiteSpace(input.Search))
                 query = query.Where(genre => genre.Name.Contains(input.Search));
-           
+
             var total = await query.CountAsync();
 
             var genres = await query
@@ -120,5 +120,10 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
             };
             return orderedQuery;
         }
+
+        public async Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken)
+                => await _genres.AsNoTracking()
+                    .Where(genre => ids.Contains(genre.Id))
+                    .Select(genre => genre.Id).ToListAsync();
     }
 }

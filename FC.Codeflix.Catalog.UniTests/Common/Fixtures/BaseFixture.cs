@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FC.Codeflix.Catalog.UniTests.Comon
+namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
 {
     public abstract class BaseFixture
     {
