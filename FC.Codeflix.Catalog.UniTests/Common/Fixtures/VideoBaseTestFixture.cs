@@ -44,7 +44,7 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
                null,
                null,
                null,
-              GetValidImageFileInput(),
+               GetValidImageFileInput(),
                GetValidImageFileInput(),
                GetValidImageFileInput()
                );
@@ -66,6 +66,14 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
             var fileInput = new FileInput("jpg", exampleStream);
             return fileInput;
         }
+
+        public FileInput GetValidMediaFileInput()
+        {
+            var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
+            var fileInput = new FileInput("mp4", exampleStream);
+            return fileInput;
+        }
+
         public List<Guid> GetListRandomIds(int? count = null)
              => Enumerable.Range(1, count ?? (new Random().Next(1, 10)))
                 .Select(_ => Guid.NewGuid())
