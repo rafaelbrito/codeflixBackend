@@ -4,6 +4,7 @@ using FC.Codeflix.Catalog.Domain.Repository;
 using FC.Codeflix.Catalog.Domain.Validation;
 using FC.Codeflix.Catalog.Domain.Exceptions;
 using FC.Codeflix.Catalog.Application.Exceptions;
+using FC.Codeflix.Catalog.Application.Common;
 
 namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
 {
@@ -54,6 +55,8 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
             try
             {
                 await UploadImagesMedia(request, video, cancellationToken);
+                await UploadVideosMedia(request, video, cancellationToken);
+
 
                 await _videoRepository.Insert(video, cancellationToken);
                 await _unitOfWork.Commit(cancellationToken);
@@ -68,6 +71,29 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
 
         }
 
+        private async Task UploadVideosMedia(CreateVideoInput input, DomainEntity.Video video, CancellationToken cancellationToken)
+        {
+            if (input.Media is not null)
+            {
+                var fileName = StorageFileName.Create(video.Id, nameof(input.Media), input.Media!.Extension);
+                var mediaUrl = await _storageService.Upload(
+                    fileName,
+                    input.Media.FileStream,
+                    cancellationToken);
+                video.UpdateMedia(mediaUrl);
+            }
+
+            if (input.Trailer is not null)
+            {
+                var fileName = StorageFileName.Create(video.Id, nameof(input.Trailer), input.Trailer!.Extension);
+                var trailerUrl = await _storageService.Upload(
+                    fileName,
+                    input.Trailer.FileStream,
+                    cancellationToken);
+                video.UpdateTrailer(trailerUrl);
+            }
+        }
+
         private async Task ClearStorage(DomainEntity.Video video, CancellationToken cancellationToken)
         {
             if (video.Thumb is not null)
@@ -76,32 +102,39 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
                 await _storageService.Delete(video.ThumbHalf.Path, cancellationToken);
             if (video.Banner is not null)
                 await _storageService.Delete(video.Banner.Path, cancellationToken);
+            if (video.Media is not null)
+                await _storageService.Delete(video.Media.FilePath, cancellationToken);
+            if (video.Trailer is not null)
+                await _storageService.Delete(video.Trailer.FilePath, cancellationToken);
         }
 
-        private async Task UploadImagesMedia(CreateVideoInput request, DomainEntity.Video video, CancellationToken cancellationToken)
+        private async Task UploadImagesMedia(CreateVideoInput input, DomainEntity.Video video, CancellationToken cancellationToken)
         {
-            if (request.Thumb is not null)
+            if (input.Thumb is not null)
             {
+                var fileName = StorageFileName.Create(video.Id, nameof(input.Thumb), input.Thumb!.Extension);
                 var thumbUrl = await _storageService.Upload(
-                    $"{video.Id}-thumb.{request.Thumb.Extension}",
-                    request.Thumb.FileStream,
+                    fileName,
+                    input.Thumb.FileStream,
                     cancellationToken);
                 video.UpdateThumb(thumbUrl);
             }
-            if (request.Banner is not null)
+            if (input.Banner is not null)
             {
+                var fileName = StorageFileName.Create(video.Id, nameof(input.Banner), input.Banner!.Extension);
                 var bannerUrl = await _storageService.Upload(
-                    $"{video.Id}-banner.{request.Banner.Extension}",
-                    request.Banner.FileStream,
+                    fileName,
+                    input.Banner.FileStream,
                     cancellationToken);
                 video.UpdateBanner(bannerUrl);
             }
 
-            if (request.ThumbHalf is not null)
+            if (input.ThumbHalf is not null)
             {
+                var fileName = StorageFileName.Create(video.Id, nameof(input.ThumbHalf), input.ThumbHalf!.Extension);
                 var thumbHalfUrl = await _storageService.Upload(
-                    $"{video.Id}-thumbhalf.{request.ThumbHalf.Extension}",
-                    request.ThumbHalf.FileStream,
+                    fileName,
+                    input.ThumbHalf.FileStream,
                     cancellationToken);
                 video.UpdateThumbHalf(thumbHalfUrl);
             }

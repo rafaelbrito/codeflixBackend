@@ -15,7 +15,9 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
              List<Guid>? castMembersIds = null,
              FileInput? thumb = null,
              FileInput? banner = null,
-             FileInput? thumbHalf = null)
+             FileInput? thumbHalf = null,
+             FileInput? media = null,
+             FileInput? trailer = null)
            => new(
                GetValidVideoTitle(),
                GetValidVideoDescription(),
@@ -29,7 +31,9 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
                castMembersIds,
                thumb,
                banner,
-               thumbHalf
+               thumbHalf,
+               media,
+               trailer
                );
 
         public CreateVideoInput GetValidVideoInputAllImages()
