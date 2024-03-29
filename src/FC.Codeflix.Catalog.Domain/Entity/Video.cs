@@ -129,7 +129,7 @@ namespace FC.Codeflix.Catalog.Domain.Entity
         public void RemoveCastMember(Guid id)
             => _castMembers.Remove(id);
 
-        public void RemoveCastAllMember()
+        public void RemoveAllCastMember()
             => _castMembers.Clear();
     }
 }

@@ -11,16 +11,6 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.Common
         public string GetValidGenreName()
             => Faker.Commerce.Categories(1)[0];
 
-
-        public Mock<IGenreRepository> GetGenreRepositoryMock()
-            => new Mock<IGenreRepository>();
-
-        public Mock<IUnitOfWork> GetUnitOfWorkMock()
-            => new Mock<IUnitOfWork>();
-
-        public Mock<ICategoryRepository> GetCategoryRepositoryMock()
-            => new Mock<ICategoryRepository>();
-
         public DomainEntity.Genre GetExampleGenre(bool? isActive = null, List<Guid>? categoriesIds = null)
         {
             var genre = new DomainEntity.Genre(
@@ -31,6 +21,17 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Genre.Common
             return genre;
 
         }
+
+        public Mock<IGenreRepository> GetGenreRepositoryMock()
+            => new Mock<IGenreRepository>();
+
+        public Mock<IUnitOfWork> GetUnitOfWorkMock()
+            => new Mock<IUnitOfWork>();
+
+        public Mock<ICategoryRepository> GetCategoryRepositoryMock()
+            => new Mock<ICategoryRepository>();
+
+        
 
         public List<Guid> GetRandomIdsList(int? count = null)
             => Enumerable.Range(1, count ?? (new Random().Next(1, 10)))

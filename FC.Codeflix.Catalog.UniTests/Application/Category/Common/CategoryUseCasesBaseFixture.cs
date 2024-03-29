@@ -31,7 +31,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Category.Common
         public Mock<IUnitOfWork> GetUnitOfWorkMock() => new();
 
         public DomainEntity.Category GetExampleCategory()
-     => new(GetValidCategoryName(),
+            => new(GetValidCategoryName(),
             GetValidCategoryDescription(),
             GetRandomBoolean()
         );

@@ -387,7 +387,7 @@ namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Video
             exampleVideo.AddCastMember(exampleCastMemberId);
             exampleVideo.AddCastMember(exampleCastMemberId2);
 
-            exampleVideo.RemoveCastAllMember();
+            exampleVideo.RemoveAllCastMember();
 
             exampleVideo.CastMembers.Should().HaveCount(0);
         }

@@ -9,6 +9,7 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
 {
     public class VideoBaseTestFixture : BaseFixture
     {
+
         public CreateVideoInput GetValidVideoInput(
             List<Guid>? categoriesIds = null,
             List<Guid>? genresIds = null,
@@ -64,6 +65,32 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
                 GetRandomRating()
                 );
 
+        public Video GetValidVideoWithAllProperties()
+        {
+            var listCastMember = GetListRandomIds();
+            var listGenres = GetListRandomIds();
+            var listCategories = GetListRandomIds();
+            var video = new Video(
+                        GetValidVideoTitle(),
+                        GetValidVideoDescription(),
+                        GetValidYearLauched(),
+                        GetRandomBoolean(),
+                        GetRandomBoolean(),
+                        GetValidVideoDuration(),
+                        GetRandomRating()
+                        );
+            video.UpdateBanner(GetValidImagePath());
+            video.UpdateThumb(GetValidImagePath());
+            video.UpdateThumbHalf(GetValidImagePath());
+            video.UpdateMedia(GetValidMediaPath());
+            video.UpdateTrailer(GetValidMediaPath());
+            listCastMember.ForEach(x => video.AddCastMember(x));
+            listGenres.ForEach(x => video.AddGenre(x));
+            listCategories.ForEach(x => video.AddCategory(x));
+
+            return video;
+        }
+
         public FileInput GetValidImageFileInput()
         {
             var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
@@ -98,7 +125,7 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
         public List<Video> GetExampleVideoList(int length = 10)
             => Enumerable.Range(0, length)
             .Select(_ =>
-            GetValidVideo())
+            GetValidVideoWithAllProperties())
             .ToList();
 
         public string GetTooLongTitle()

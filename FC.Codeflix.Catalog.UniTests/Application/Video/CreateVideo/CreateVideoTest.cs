@@ -8,7 +8,7 @@ using FC.Codeflix.Catalog.Domain.Repository;
 using FC.Codeflix.Catalog.Domain.Exceptions;
 using FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo;
 using FC.Codeflix.Catalog.Application.Exceptions;
-using FC.Codeflix.Catalog.Application.Common;
+using FC.Codeflix.Catalog.Domain.Extensions;
 
 namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
 {
@@ -63,7 +63,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
         }
 
@@ -143,9 +143,11 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.CategoriesIds.Should().BeEquivalentTo(exampleCategoriesIds);
+            var outputItemCategories = output.Categories
+                   .Select(dto => dto.Id).ToList();
+            outputItemCategories.Should().BeEquivalentTo(exampleCategoriesIds);
 
             repositoryMock.Verify(x => x.Insert(
                 It.Is<DomainEntity.Video>(video =>
@@ -242,9 +244,13 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.GenresIds.Should().BeEquivalentTo(exampleListIds);
+
+            var outputItemGenres = output.Genres
+                .Select(dto => dto.Id).ToList();
+            outputItemGenres.Should().BeEquivalentTo(exampleListIds);
+
 
             repositoryMock.Verify(x => x.Insert(
                 It.Is<DomainEntity.Video>(video =>
@@ -341,11 +347,13 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.CategoriesIds.Should().BeEmpty();
-            output.GenresIds.Should().BeEmpty();
-            output.CastMembersIds.Should().BeEquivalentTo(exampleListIds);
+            output.Categories.Should().BeEmpty();
+            output.Genres.Should().BeEmpty();
+            var outputItemCastMember = output.CastMembers
+                   .Select(dto => dto.Id).ToList();
+            outputItemCastMember.Should().BeEquivalentTo(exampleListIds);
 
             repositoryMock.Verify(x => x.Insert(
                 It.Is<DomainEntity.Video>(video =>
@@ -458,9 +466,9 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.Thumb.Should().Be(expectedThumbName);
+            output.ThumbFileUrl.Should().Be(expectedThumbName);
         }
 
         [Fact(DisplayName = (nameof(CreateVideoWithBanner)))]
@@ -517,9 +525,9 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.Banner.Should().Be(expectedBannerName);
+            output.BannerFileUrl.Should().Be(expectedBannerName);
         }
 
         [Fact(DisplayName = (nameof(CreateVideoWithThumbHalf)))]
@@ -576,9 +584,9 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.ThumbHalf.Should().Be(expectedThumbHalfName);
+            output.ThumbHalfFileUrl.Should().Be(expectedThumbHalfName);
         }
 
         [Fact(DisplayName = (nameof(CreateVideoWithAllImages)))]
@@ -649,11 +657,11 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.Banner.Should().Be(expectedBannerName);
-            output.Thumb.Should().Be(expectedThumbName);
-            output.ThumbHalf.Should().Be(expectedThumbHalfName);
+            output.BannerFileUrl.Should().Be(expectedBannerName);
+            output.ThumbFileUrl.Should().Be(expectedThumbName);
+            output.ThumbHalfFileUrl.Should().Be(expectedThumbHalfName);
         }
 
         [Fact(DisplayName = (nameof(CreateVideoWithMedia)))]
@@ -712,9 +720,9 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.Media.Should().Be(expectedMediaName);
+            output.VideoFileUrl.Should().Be(expectedMediaName);
         }
 
         [Fact(DisplayName = (nameof(CreateVideoWithTrailer)))]
@@ -773,9 +781,9 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             output.Opened.Should().Be(input.Opened);
             output.Published.Should().Be(input.Published);
             output.Duration.Should().Be(input.Duration);
-            output.Rating.Should().Be(input.Rating);
+            output.Rating.Should().Be(input.Rating.ToStringSignal());
             output.CreatedAt.Should().NotBeSameDateAs(default);
-            output.Trailer.Should().Be(expectedMediaName);
+            output.TrailerFileUrl.Should().Be(expectedMediaName);
         }
 
         [Fact(DisplayName = (nameof(ThrowExceptionUploadErrorImage)))]
