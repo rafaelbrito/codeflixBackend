@@ -5,6 +5,7 @@ using FC.Codeflix.Catalog.Domain.Validation;
 using FC.Codeflix.Catalog.Domain.Exceptions;
 using FC.Codeflix.Catalog.Application.Exceptions;
 using FC.Codeflix.Catalog.Application.Common;
+using FC.Codeflix.Catalog.Application.UseCases.Video.Common;
 
 namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
 {
@@ -33,7 +34,7 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
             _storageService = storageService;
         }
 
-        public async Task<CreateVideoOutput> Handle(CreateVideoInput request, CancellationToken cancellationToken)
+        public async Task<VideoModelOutput> Handle(CreateVideoInput request, CancellationToken cancellationToken)
         {
             var video = new DomainEntity.Video(
                 request.Title,
@@ -60,7 +61,7 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
 
                 await _videoRepository.Insert(video, cancellationToken);
                 await _unitOfWork.Commit(cancellationToken);
-                return CreateVideoOutput.FromVideo(video);
+                return VideoModelOutput.FromVideo(video);
             }
             catch (Exception)
             {

@@ -125,5 +125,10 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
                 => await _genres.AsNoTracking()
                     .Where(genre => ids.Contains(genre.Id))
                     .Select(genre => genre.Id).ToListAsync();
+
+        public async Task<IReadOnlyList<Genre>> GetListByIds(List<Guid> ids, CancellationToken cancellationToken)
+         => await _genres.AsNoTracking()
+                    .Where(genres => ids.Contains(genres.Id))
+                    .ToListAsync();
     }
 }

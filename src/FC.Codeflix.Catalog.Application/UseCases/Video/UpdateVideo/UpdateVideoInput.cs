@@ -2,9 +2,10 @@
 using FC.Codeflix.Catalog.Domain.Enum;
 using MediatR;
 
-namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
+namespace FC.Codeflix.Catalog.Application.UseCases.Video.UpdateVideo
 {
-    public record CreateVideoInput(
+    public record UpdateVideoInput(
+        Guid Id,
         string Title,
         string Description,
         int YearLauched,
@@ -22,5 +23,4 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
         FileInput? Trailer = null
 
         ) : IRequest<VideoModelOutput>;
-
 }

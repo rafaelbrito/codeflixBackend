@@ -9,5 +9,8 @@ namespace FC.Codeflix.Catalog.Domain.Repository
     {
         public Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken);
 
+        public Task<IReadOnlyList<Genre>> GetListByIds(List<Guid> ids, CancellationToken cancellationToken);
+
+
     }
 }

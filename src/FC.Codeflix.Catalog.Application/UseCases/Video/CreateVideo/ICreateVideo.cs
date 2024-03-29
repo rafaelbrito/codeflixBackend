@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using FC.Codeflix.Catalog.Application.UseCases.Video.Common;
+using MediatR;
 
 namespace FC.Codeflix.Catalog.Application.UseCases.Video.CreateVideo
 {
-    public interface ICreateVideo : IRequestHandler<CreateVideoInput, CreateVideoOutput>
+    public interface ICreateVideo : IRequestHandler<CreateVideoInput, VideoModelOutput>
     {
     }
 }
