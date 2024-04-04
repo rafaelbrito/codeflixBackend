@@ -1,7 +1,5 @@
-﻿using FC.Codeflix.Catalog.Domain.SeedWork;
-using FC.Codeflix.Catalog.Infra.Data.EF;
+﻿using FC.Codeflix.Catalog.Infra.Data.EF;
 using Repository = FC.Codeflix.Catalog.Infra.Data.EF.Repositories;
-
 using Xunit;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;

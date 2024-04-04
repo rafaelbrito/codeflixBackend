@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FC.Codeflix.Catalog.Infra.Data.EF.Congifurations
 {
-    internal class GenresCategoriesConfiguration : IEntityTypeConfiguration<GenresCategories>
+    internal class VideosCategoriesConfiguration : IEntityTypeConfiguration<VideosCategories>
     {
-        public void Configure(EntityTypeBuilder<GenresCategories> builder)
+        public void Configure(EntityTypeBuilder<VideosCategories> builder)
             => builder.HasKey(relation => new
             {
-                relation.CategoryId,
-                relation.GenreId
+                relation.VideoId,
+                relation.CategoryId
             }
             );
     }

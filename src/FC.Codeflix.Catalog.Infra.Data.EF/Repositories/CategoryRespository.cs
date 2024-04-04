@@ -75,12 +75,12 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Repositories
         public async Task<IReadOnlyList<Guid>> GetIdsListByIds(List<Guid> ids, CancellationToken cancellationToken)
             => await _categories.AsNoTracking()
                     .Where(category => ids.Contains(category.Id))
-                    .Select(category => category.Id).ToListAsync();
+                    .Select(category => category.Id).ToListAsync(cancellationToken);
 
         public async Task<IReadOnlyList<Category>> GetListByIds(List<Guid> ids, CancellationToken cancellationToken)
              => await _categories.AsNoTracking()
                     .Where(category => ids.Contains(category.Id))
-                    .ToListAsync();
+                    .ToListAsync(cancellationToken);
 
     }
 }
