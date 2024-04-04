@@ -2,16 +2,16 @@
 
 namespace FC.Codeflix.Catalog.Infra.Data.EF.Model
 {
-    public class GenresCategories
+    public class VideosGenres
     {
+        public Guid VideoId { get; set; }
         public Guid GenreId { get; set; }
-        public Guid CategoryId { get; set; }
-        public Category? Category { get; set; }
         public Genre? Genre { get; set; }
-       
-        public GenresCategories(Guid categoryId, Guid genreId)
+        public Video? Video { get; set; }
+
+        public VideosGenres(Guid videoId, Guid genreId)
         {
-            CategoryId = categoryId;
+            VideoId = videoId;
             GenreId = genreId;
         }
     }

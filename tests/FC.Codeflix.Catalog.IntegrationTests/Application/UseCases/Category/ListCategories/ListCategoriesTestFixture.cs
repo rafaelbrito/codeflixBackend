@@ -11,14 +11,6 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Lis
 
     public class ListCategoriesTestFixture : CategoryUseCasesBaseFixture
     {
-        public List<DomainEntity.Category> GetExampleCategoriesListWithNames(List<string> names)
-            => names.Select(name =>
-            {
-                var category = GetExampleCategory();
-                category.Update(name);
-                return category;
-            }).ToList();
-
         public List<DomainEntity.Category> CloneCategoryListOrdered(
            List<DomainEntity.Category> categoryList, string orderBy, SearchOrder order)
         {

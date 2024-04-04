@@ -19,6 +19,7 @@ namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Video
         {
             var path = _fixture.GetValidMediaPath();
             var media = new Media(path);
+            media.Id.Should().NotBeEmpty(default);
             media.FilePath.Should().Be(path);
             media.Status.Should().Be(MediaStatus.Pending);
         }

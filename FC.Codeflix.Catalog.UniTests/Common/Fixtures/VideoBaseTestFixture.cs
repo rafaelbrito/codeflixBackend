@@ -9,7 +9,6 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
 {
     public class VideoBaseTestFixture : BaseFixture
     {
-
         public CreateVideoInput GetValidVideoInput(
             List<Guid>? categoriesIds = null,
             List<Guid>? genresIds = null,
