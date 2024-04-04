@@ -51,7 +51,7 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.UploadMedias
             if (input.TraileFile is not null)
             {
                 var fileName = StorageFileName.Create(input.Id, nameof(video.Trailer), input.TraileFile.Extension);
-                var uploadFilePath = await _storageService.Upload(fileName, input.TraileFile.FileStream, cancellationToken);
+                var uploadFilePath = await _storageService.Upload(fileName, input.TraileFile.FileStream, input.TraileFile.ContentType, cancellationToken);
                 video.UpdateTrailer(uploadFilePath);
             }
         }
@@ -61,7 +61,7 @@ namespace FC.Codeflix.Catalog.Application.UseCases.Video.UploadMedias
             if (input.VideoFile is not null)
             {
                 var fileName = StorageFileName.Create(input.Id, nameof(video.Media), input.VideoFile.Extension);
-                var uploadFilePath = await _storageService.Upload(fileName, input.VideoFile.FileStream, cancellationToken);
+                var uploadFilePath = await _storageService.Upload(fileName, input.VideoFile.FileStream, input.VideoFile.ContentType, cancellationToken);
                 video.UpdateMedia(uploadFilePath);
             }
         }

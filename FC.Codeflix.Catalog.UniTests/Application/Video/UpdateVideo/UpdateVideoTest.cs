@@ -530,6 +530,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
                     nameof(exampleVideo.Banner),
                     input.Banner!.Extension)),
                 It.IsAny<MemoryStream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(bannerPath);
 
@@ -591,6 +592,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
             _storageServiceMock.Verify(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 ), Times.Never);
 
@@ -641,6 +643,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
                     nameof(exampleVideo.Thumb),
                     input.Thumb!.Extension)),
                 It.IsAny<MemoryStream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(thumbPath);
 
@@ -702,6 +705,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
             _storageServiceMock.Verify(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 ), Times.Never);
 
@@ -752,6 +756,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
                     nameof(exampleVideo.ThumbHalf),
                     input.ThumbHalf!.Extension)),
                 It.IsAny<MemoryStream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(thumbPathHalf);
 
@@ -813,6 +818,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UpdateVideo
             _storageServiceMock.Verify(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 ), Times.Never);
 
