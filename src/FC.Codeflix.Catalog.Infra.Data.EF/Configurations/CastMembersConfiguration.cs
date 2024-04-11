@@ -13,6 +13,8 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Congifurations
                 .IsRequired()
                 .HasMaxLength(255)
                 ;
+            builder.Ignore(CastMember => CastMember.Events);
+
         }
     }
 }

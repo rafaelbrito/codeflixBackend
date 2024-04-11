@@ -5,6 +5,9 @@ using FluentAssertions;
 using Xunit;
 using FC.Codeflix.Catalog.Infra.Data.EF;
 using FC.Codeflix.Catalog.Application.Exceptions;
+using FC.Codeflix.Catalog.Application;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.UpdateCastMember
 {
@@ -29,8 +32,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.U
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var actDbContext = _fixture.CreateDbContext(true);
             var repository = new CastMemberRepository(actDbContext);
-            var unitOfWork = new UnitOfWork(actDbContext);
-
+            
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                actDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
             var useCase = new UseCase.UpdateCastMember(repository, unitOfWork);
             var input = new UseCase.UpdateCastMemberInput(targetCastMember.Id, newName, newType);
@@ -58,8 +68,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.U
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var actDbContext = _fixture.CreateDbContext(true);
             var repository = new CastMemberRepository(actDbContext);
-            var unitOfWork = new UnitOfWork(actDbContext);
 
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                actDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
             var useCase = new UseCase.UpdateCastMember(repository, unitOfWork);
             var input = new UseCase.UpdateCastMemberInput(randomGuid, _fixture.GetValidName(), _fixture.GetRandomCastMemberType());

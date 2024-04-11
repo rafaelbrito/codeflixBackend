@@ -15,7 +15,8 @@ namespace FC.Codeflix.Catalog.Infra.Data.EF.Congifurations
                 ;
             builder.Property(c => c.Description)
               .HasMaxLength(10_000);
-              
+            
+            builder.Ignore(category => category.Events);
         }
     }
 }

@@ -1,10 +1,13 @@
-﻿using FC.Codeflix.Catalog.Application.Exceptions;
+﻿using FC.Codeflix.Catalog.Application;
+using FC.Codeflix.Catalog.Application.Exceptions;
 using FC.Codeflix.Catalog.Application.UseCases.Genre.UpdateGenre;
 using FC.Codeflix.Catalog.Infra.Data.EF;
 using FC.Codeflix.Catalog.Infra.Data.EF.Model;
 using FC.Codeflix.Catalog.Infra.Data.EF.Repositories;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Xunit;
 using UseCase = FC.Codeflix.Catalog.Application.UseCases.Genre.UpdateGenre;
 
@@ -27,9 +30,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(exampleGenre);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 
@@ -70,9 +83,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(relations);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 
@@ -122,9 +145,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(relations);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 
@@ -154,9 +187,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(exampleGenre);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 
@@ -188,9 +231,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(relations);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 
@@ -208,7 +261,7 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             output.IsActive.Should().Be((bool)input.IsActive!);
             output.Categories.Should().HaveCount(relatedCategories.Count);
             var expectedRelatedCategoryIds = output.Categories
-                .Select(relatedCategory => relatedCategory.Id).ToList();  
+                .Select(relatedCategory => relatedCategory.Id).ToList();
             var relatedCategoryIdsFromOutput = output.Categories.Select(relationCategory => relationCategory.Id).ToList();
             relatedCategoryIdsFromOutput.Should().BeEquivalentTo(expectedRelatedCategoryIds);
             var assertDbContext = _fixture.CreateDbContext(true);
@@ -240,9 +293,19 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Update
             await dbContext.AddRangeAsync(relations);
             await dbContext.SaveChangesAsync();
             var arrangeDbContext = _fixture.CreateDbContext(true);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                arrangeDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             UseCase.UpdateGenre updateGenre = new UseCase.UpdateGenre(
                 new GenreRepository(arrangeDbContext),
-                new UnitOfWork(arrangeDbContext),
+                unitOfWork,
                 new CategoryRespository(arrangeDbContext)
                 );
 

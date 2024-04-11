@@ -1,5 +1,10 @@
-﻿using FluentAssertions;
+﻿using FC.Codeflix.Catalog.Application;
+using FC.Codeflix.Catalog.Domain.SeedWork;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 using UnitOfWorkInfra = FC.Codeflix.Catalog.Infra.Data.EF;
 
@@ -19,15 +24,33 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.UnitOfWork
         {
             var dbContext = _fixute.CreateDbContext();
             var exampleCategoryList = _fixute.GetExampleCategoryList();
+            var categoryWithEvent = exampleCategoryList.First();
+            var @event = new DomainEventFake();
+            categoryWithEvent.RaiseEvent(@event);
+            var eventHandlerMock = new Mock<IDomainEventHandler<DomainEventFake>>();
             await dbContext.AddRangeAsync(exampleCategoryList);
-            var unitOfWork = new UnitOfWorkInfra.UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            serviceCollection.AddSingleton(eventHandlerMock.Object);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWorkInfra.UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWorkInfra.UnitOfWork>>());
 
             await unitOfWork.Commit(CancellationToken.None);
 
             var assertDbContext = _fixute.CreateDbContext(true);
-            var Savedcategories = assertDbContext.Categories.AsNoTracking().ToList();
+            var savedCategories = assertDbContext.Categories.AsNoTracking().ToList();
 
-            Savedcategories.Should().HaveCount(exampleCategoryList.Count);
+            savedCategories.Should().HaveCount(exampleCategoryList.Count);
+            eventHandlerMock.Verify(x => x.HandleAsync(
+                @event,
+                It.IsAny<CancellationToken>()
+                ),Times.Once);
+            categoryWithEvent.Events.Should().BeEmpty();
         }
 
         [Fact(DisplayName = nameof(Rollback))]
@@ -35,7 +58,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.UnitOfWork
         public async Task Rollback()
         {
             var dbContext = _fixute.CreateDbContext();
-            var unitOfWork = new UnitOfWorkInfra.UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWorkInfra.UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWorkInfra.UnitOfWork>>());
 
             var task = async () => await unitOfWork.Rollback(CancellationToken.None);
 
