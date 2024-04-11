@@ -187,15 +187,16 @@ namespace FC.Codeflix.Catalog.UniTests.Domain.Entity.Video
             exampleVideo.Banner!.Path.Should().Be(validImagePath);
         }
 
-        [Fact(DisplayName = nameof(UpdateMidia))]
+        [Fact(DisplayName = nameof(UpdateMedia))]
         [Trait("Domain", "Video - Aggregate")]
-        public void UpdateMidia()
+        public void UpdateMedia()
         {
             var exampleVideo = _fixture.GetValidVideo();
             var validPath = _fixture.GetValidImagePath();
             exampleVideo.UpdateMedia(validPath);
             exampleVideo.Media.Should().NotBeNull();
             exampleVideo.Media!.FilePath.Should().Be(validPath);
+            exampleVideo.Events.Should().HaveCount(1);
         }
 
         [Fact(DisplayName = nameof(UpdateTrailer))]

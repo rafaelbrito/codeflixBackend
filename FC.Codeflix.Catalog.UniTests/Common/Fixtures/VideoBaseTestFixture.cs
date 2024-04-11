@@ -93,14 +93,14 @@ namespace FC.Codeflix.Catalog.UniTests.Common.Fixtures
         public FileInput GetValidImageFileInput()
         {
             var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
-            var fileInput = new FileInput("jpg", exampleStream);
+            var fileInput = new FileInput("jpg", exampleStream, "image/jpeg");
             return fileInput;
         }
 
         public FileInput GetValidMediaFileInput()
         {
             var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
-            var fileInput = new FileInput("mp4", exampleStream);
+            var fileInput = new FileInput("mp4", exampleStream, "video/mp4");
             return fileInput;
         }
 

@@ -1,4 +1,4 @@
-﻿using FC.Codeflix.Catalog.Api.Configurations.Polices;
+﻿using FC.Codeflix.Catalog.Infra.Messaging.JsonPolicies;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 using System.Text.Json;

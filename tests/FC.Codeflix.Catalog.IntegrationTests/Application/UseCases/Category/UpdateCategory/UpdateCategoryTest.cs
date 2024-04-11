@@ -8,6 +8,9 @@ using FC.Codeflix.Catalog.Infra.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using FC.Codeflix.Catalog.Application.Exceptions;
 using FC.Codeflix.Catalog.Domain.Exceptions;
+using FC.Codeflix.Catalog.Application;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.UpdateCategory
 {
@@ -31,7 +34,16 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Upd
             dbContext.SaveChanges();
             trackingInfo.State = EntityState.Detached;
             var repository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
 
             var output = await useCase.Handle(input, CancellationToken.None);
@@ -67,8 +79,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Upd
             dbContext.SaveChanges();
             trackingInfo.State = EntityState.Detached;
             var repository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
-            var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>()); var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
 
             var output = await useCase.Handle(input, CancellationToken.None);
 
@@ -102,8 +121,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Upd
             dbContext.SaveChanges();
             trackingInfo.State = EntityState.Detached;
             var repository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
-            var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>()); var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
 
             var output = await useCase.Handle(input, CancellationToken.None);
 
@@ -129,8 +155,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Upd
             await dbContext.AddRangeAsync(_fixture.GetExampleCategoryList());
             dbContext.SaveChanges();
             var repository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
-            var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>()); var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
 
             var task = async ()
                 => await useCase.Handle(input, CancellationToken.None);
@@ -151,10 +184,17 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Category.Upd
             await dbContext.AddRangeAsync(exampleCategory);
             dbContext.SaveChanges();
             var repository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
-            var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
-            input.Id = exampleCategory[0].Id;
 
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>()); var useCase = new UseCase.UpdateCategory(repository, unitOfWork);
+
+            input.Id = exampleCategory[0].Id;
             var task = async () 
                 => await useCase.Handle(input, CancellationToken.None);
 

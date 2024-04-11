@@ -4,6 +4,9 @@ using FC.Codeflix.Catalog.Infra.Data.EF.Repositories;
 using Xunit;
 using FluentAssertions;
 using FC.Codeflix.Catalog.Domain.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
+using FC.Codeflix.Catalog.Application;
+using Microsoft.Extensions.Logging;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.CreateCastMember
 {
@@ -19,7 +22,14 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.C
         {
             var dbContext = _fixture.CreateDbContext();
             var repository = new CastMemberRepository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext, 
+                eventPublisher, 
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
             var useCase = new UseCase.CreateCastMember(repository, unitOfWork);
             var input = _fixture.GetExampleInput();
 
@@ -42,7 +52,16 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.C
         {
             var dbContext = _fixture.CreateDbContext();
             var repository = new CastMemberRepository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             var useCase = new UseCase.CreateCastMember(repository, unitOfWork);
             var input = new UseCase.CreateCastMemberInput(
                   name!, _fixture.GetRandomCastMemberType());

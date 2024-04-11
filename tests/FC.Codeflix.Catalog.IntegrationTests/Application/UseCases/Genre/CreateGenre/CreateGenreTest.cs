@@ -7,6 +7,9 @@ using Bogus.Extensions.UnitedKingdom;
 using FC.Codeflix.Catalog.Infra.Data.EF.Model;
 using Microsoft.EntityFrameworkCore;
 using FC.Codeflix.Catalog.Application.Exceptions;
+using FC.Codeflix.Catalog.Application;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.CreateGenre
 {
@@ -24,7 +27,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Create
             var dbContext = _fixture.CreateDbContext();
             var genreRepository = new GenreRepository(dbContext);
             var categoryRepository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
             var useCase = new UseCase.CreateGenre(genreRepository, unitOfWork, categoryRepository);
             var input = _fixture.GetExampleInput();
@@ -59,7 +70,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Create
                 .Select(category => category.Id).ToList();
             var genreRepository = new GenreRepository(dbContext);
             var categoryRepository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
             var useCase = new UseCase.CreateGenre(genreRepository, unitOfWork, categoryRepository);
             var output = await useCase.Handle(input, CancellationToken.None);
@@ -98,7 +117,15 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.Genre.Create
             input.CategoriesIds.Add(randomGuid);
             var genreRepository = new GenreRepository(dbContext);
             var categoryRepository = new CategoryRespository(dbContext);
-            var unitOfWork = new UnitOfWork(dbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                dbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
 
             var useCase = new UseCase.CreateGenre(genreRepository, unitOfWork, categoryRepository);
             var action = async () => await useCase.Handle(input, CancellationToken.None);

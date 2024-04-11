@@ -149,14 +149,14 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Infra.Data.EF.Repositories.VideoR
         public FileInput GetValidImageFileInput()
         {
             var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
-            var fileInput = new FileInput("jpg", exampleStream);
+            var fileInput = new FileInput("jpg", exampleStream, "video/mp4");
             return fileInput;
         }
 
         public FileInput GetValidMediaFileInput()
         {
             var exampleStream = new MemoryStream(Encoding.ASCII.GetBytes("test"));
-            var fileInput = new FileInput("mp4", exampleStream);
+            var fileInput = new FileInput("mp4", exampleStream, "video/mp4");
             return fileInput;
         }
 

@@ -425,6 +425,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedThumbName);
 
@@ -484,6 +485,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedBannerName);
 
@@ -543,6 +545,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedThumbHalfName);
 
@@ -604,18 +607,21 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x.EndsWith("-banner.jpg")),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedBannerName);
 
             storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x.EndsWith("-thumb.jpg")),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync(expectedThumbName);
 
             storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x.EndsWith("-thumbhalf.jpg")),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync(expectedThumbHalfName);
 
@@ -681,6 +687,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedMediaName);
 
@@ -742,6 +749,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(expectedMediaName);
 
@@ -797,6 +805,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ThrowsAsync(new Exception("Something went wrong in upload"));
 
@@ -831,18 +840,21 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x.EndsWith("-banner.jpg")),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync("123-banner.jpg");
 
             storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x.EndsWith("-thumb.jpg")),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync("123-thumb.jpg");
 
             storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x.EndsWith("-thumbhalf.jpg")),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ThrowsAsync(new Exception("Something went wrong in upload"));
 
@@ -891,12 +903,14 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.CreateVideo
             storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x.EndsWith(mediaNameToSave)),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(storageMediaPath);
 
             storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x.EndsWith(trailerNameToSave)),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync(storageTrailerPath);
 

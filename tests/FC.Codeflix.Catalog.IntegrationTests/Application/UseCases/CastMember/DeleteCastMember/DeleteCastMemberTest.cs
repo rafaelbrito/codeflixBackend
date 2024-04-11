@@ -8,6 +8,9 @@ using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Bogus;
 using FC.Codeflix.Catalog.Application.Exceptions;
+using FC.Codeflix.Catalog.Application;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.DeleteCastMember
 {
@@ -28,8 +31,14 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.D
             await dbContext.AddRangeAsync(exapleCastMemberList, CancellationToken.None);
             await dbContext.SaveChangesAsync(CancellationToken.None);
             var actDbContext = _fixture.CreateDbContext(true);
-            var unitOfWork = new UnitOfWork(actDbContext);
-
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                actDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
             var repository = new CastMemberRepository(actDbContext);
             var useCase = new UseCase.DeleteCastMember(repository, unitOfWork);
             var input = new UseCase.DeleteCastMemberInput(targetCastMember.Id);
@@ -49,7 +58,16 @@ namespace FC.Codeflix.Catalog.IntegrationTests.Application.UseCases.CastMember.D
         {
             var randomGuid = Guid.NewGuid();
             var actDbContext = _fixture.CreateDbContext();
-            var unitOfWork = new UnitOfWork(actDbContext);
+
+            var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging();
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            var eventPublisher = new DomainEventPublisher(serviceProvider);
+            var unitOfWork = new UnitOfWork(
+                actDbContext,
+                eventPublisher,
+                serviceProvider.GetRequiredService<ILogger<UnitOfWork>>());
+
             var repository = new CastMemberRepository(actDbContext);
             var useCase = new UseCase.DeleteCastMember(repository, unitOfWork);
             var input = new UseCase.DeleteCastMemberInput(randomGuid);

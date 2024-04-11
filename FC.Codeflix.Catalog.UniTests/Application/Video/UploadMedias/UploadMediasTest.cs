@@ -52,6 +52,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Setup(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(Guid.NewGuid().ToString());
 
@@ -62,6 +63,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Verify(x => x.Upload(
                 It.Is<string>(x => fileName.Contains(x)),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()),
                 Times.Exactly(2));
 
@@ -108,6 +110,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x == videoFileName),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(videoStoragePath);
 
@@ -115,6 +118,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x == trailerFileName),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ThrowsAsync(new Exception("Something went wrong with the upload"));
 
@@ -128,6 +132,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Verify(x => x.Upload(
                 It.Is<string>(x => fileName.Contains(x)),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()),
                 Times.Exactly(2));
 
@@ -160,12 +165,14 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x == videoFileName),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(videoStoragePath);
 
             _storageServiceMock.Setup(x => x.Upload(
                It.Is<string>(x => x == trailerFileName),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync(trailerStoragePath);
 
@@ -185,6 +192,7 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Verify(x => x.Upload(
                 It.Is<string>(x => fileName.Contains(x)),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()),
                 Times.Exactly(2));
 
@@ -218,12 +226,14 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Setup(x => x.Upload(
                It.IsAny<string>(),
                It.IsAny<Stream>(),
+               It.IsAny<string>(),
                It.IsAny<CancellationToken>()
                )).ReturnsAsync(Guid.NewGuid().ToString());
 
             _storageServiceMock.Setup(x => x.Upload(
                 It.Is<string>(x => x == videoFileName),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()
                 )).ReturnsAsync(videoStoragePath);
 
@@ -243,12 +253,14 @@ namespace FC.Codeflix.Catalog.UniTests.Application.Video.UploadMedias
             _storageServiceMock.Verify(x => x.Upload(
                 It.Is<string>(x => x == videoFileName),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()),
                 Times.Once);
 
             _storageServiceMock.Verify(x => x.Upload(
                 It.IsAny<string>(),
                 It.IsAny<Stream>(),
+                It.IsAny<string>(),
                 It.IsAny<CancellationToken>()),
                 Times.Once);
 
